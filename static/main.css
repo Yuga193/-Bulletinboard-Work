@@ -22,10 +22,16 @@ header {
     border-radius: 50px; 
 }
 
-.btn{
+.btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn button {
+    margin-top: 60px;
+    margin-right: 20px;
     padding: 10px 30px;
     background: #52565C;
     color: white;
-    border-radius: 50px; 
-    text-align:right;
+    border-radius: 50px;
 }
