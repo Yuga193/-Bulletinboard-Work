@@ -9,6 +9,7 @@ header {
 
 .title{
     margin-left: 4%;
+    white-space: nowrap;
 }
 
 .Search {
