@@ -1,5 +1,5 @@
 header {
-    background-color: #050081; 
+    background-color: #050081;
     opacity: 0.5;
     height: 90px;
     width: 100%;
@@ -14,16 +14,24 @@ header {
 
 .Search {
     width: 400px;
-    height: 40px; 
+    height: 40px;
     text-align: right;
     margin-right: 5%;
     margin-left: auto;
     display: block;
-    border-radius: 50px; 
+    border-radius: 50px;
 }
 
-.btn{
+.btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn button {
+    margin-top: 60px;
+    margin-right: 20px;
     padding: 10px 30px;
-    background: blue;
+    background: #52565C;
     color: white;
+    border-radius: 50px;
 }
