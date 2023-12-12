@@ -1,0 +1,25 @@
+{% extends 'html/layout.html' %}
+
+{% block title %}
+    スレ建て
+{% endblock %}
+
+{% block content %}
+    <div>
+        <p>スレッドタイトルを決めてください</p>
+        <p>(最大20文字)</p>
+        <input type="text"/>
+    </div>
+    <div class="input checkbox">
+        <p>スレ主の色を変える</p>
+        <label>
+            <input type="checkbox" name="xxx" value="yes">
+        </label>
+    </div>
+    <div>
+        <button type="button">スレッドを作成</button>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
