@@ -6,7 +6,7 @@ app = Flask(__name__)
 def main():
     return render_template("html/main.html")
 
-@app.route("/a")
+@app.route("/build")
 def build():
     return render_template("html/build.html")
 
