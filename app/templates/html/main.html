@@ -6,7 +6,9 @@
 
 {% block content %}
 <div>
-    <button class="bg-gray-600 hover:bg-blue-700 text-white rounded px-4 py-2">スレッドを建てる</button>
+    <a href="/build">
+        <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
+    </a>
     <form method="post" action="example.cgi">
         <p>
             <select name="sort">
