@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}" />
-        <title>{% block title %}{% endblock %}</title>
-    </head>
-    <header>
-        <a href="http://127.0.0.1:5050/">
-            <h1 style="color: #cecece" class="title">掲示板アプリ</h1>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="frex min-h-screen">
+<header>
+    <div class="bg-violet-500">
+        <a href="http://127.0.0.1:6060/">
+            <h1 class="text-red-500">掲示板アプリ</h1>
         </a>
-        <input type="text" name="name" class="Search" />
-    </header>
-    <body>
-        {% block content %}{% endblock %}
-    </body>
-    <footer>
-        {% block footer %}{% endblock %}
-    </footer>
+        <input type="text" class="Search"/>
+    </div>
+</header>
+
+    {% block content %}{% endblock %}
+
+<footer>
+    {% block footer %}{% endblock %}
+</footer>
+</body>
 </html>
