@@ -5,9 +5,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="btn">
-        <button type="button">スレッドを建てる</button>
-    </div>
+<div>
+    <button class="bg-gray-600 hover:bg-blue-700 text-white rounded px-4 py-2">スレッドを建てる</button>
     <form method="post" action="example.cgi">
         <p>
             <select name="sort">
@@ -16,6 +15,8 @@
             </select>
         </p>
     </form>
+</div>
+
 {% endblock %}
 
 {% block footer %}
