@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    <button class="bg-gray-600 hover:bg-blue-700 text-white rounded px-4 py-2">スレッドを建てる</button>
+<div class="flex flex-col">
+    <a href="/build" class="flex justify-end m-2">
+        <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
+    </a>
     <form method="post" action="example.cgi">
         <p>
-            <select name="sort">
+            <select name="sort" class="border m-2">
                 <option value="サンプル3" selected>新着順</option>
                 <option value="サンプル4">コメント数順</option>
             </select>
