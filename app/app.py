@@ -11,8 +11,8 @@ def main():
 def build():
     return render_template("html/build.html")
 
-@app.route("/thread")
-def thread():
+@app.route("/threads")
+def threads():
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
 
@@ -23,7 +23,7 @@ def thread():
     conn.close()
 
     # テンプレートにタイトルを渡す
-    return render_template("html/thread.html", thread_title=thread_title[0] if thread_title else "")
+    return render_template("html/threads.html", thread_title=thread_title[0] if thread_title else "")
 
 
 #/submitはGPTに吐かせてるのであまり信用しないでください
@@ -35,10 +35,11 @@ def submit():
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
 
-    # テーブルが存在しない場合は作成
-    c.execute('''CREATE TABLE IF NOT EXISTS threads (title TEXT)''')
+    # # テーブルが存在しない場合は作成
+    # c.execute('''CREATE TABLE IF NOT EXISTS threads (title TEXT)''')
 
     # データをテーブルに挿入
+    c.execute("INSERT INTO threads (title) VALUES (?)", (text,))
     c.execute("INSERT INTO threads (title) VALUES (?)", (text,))
 
     # 変更をコミットし、接続を閉じる
