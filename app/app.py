@@ -11,8 +11,8 @@ def main():
 def build():
     return render_template("html/build.html")
 
-@app.route("/thread")
-def thread():
+@app.route("/threads")
+def threads():
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
 
@@ -23,7 +23,7 @@ def thread():
     conn.close()
 
     # テンプレートにタイトルを渡す
-    return render_template("html/thread.html", thread_title=thread_title[0] if thread_title else "")
+    return render_template("html/threads.html", thread_title=thread_title[0] if thread_title else "")
 
 
 #/submitはGPTに吐かせてるのであまり信用しないでください
