@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
+
+
 import sqlite3
 
 app = Flask(__name__)
@@ -40,12 +42,11 @@ def submit():
 
     # データをテーブルに挿入
     c.execute("INSERT INTO threads (title) VALUES (?)", (text,))
-    c.execute("INSERT INTO threads (title) VALUES (?)", (text,))
 
     # 変更をコミットし、接続を閉じる
     conn.commit()
     conn.close()
-    return redirect(url_for('thread'))
+    return redirect(url_for('threads'))
 
 
 if __name__ == '__main__':
