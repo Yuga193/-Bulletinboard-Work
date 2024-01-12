@@ -1,4 +1,4 @@
-{% extends 'html/layout.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
     掲示板
@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="flex flex-col">
-    <a href="/build" class="flex justify-end m-2">
+    <a href="/create_thread" class="flex justify-end m-2">
         <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
     </a>
     <form method="post" action="example.cgi">
@@ -17,6 +17,13 @@
             </select>
         </p>
     </form>
+</div>
+<div>
+    <ul>
+        {% for thread in threads %}
+            <li class="mb-2"><a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="text-blue-500">{{ thread['name'] }}</a></li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}

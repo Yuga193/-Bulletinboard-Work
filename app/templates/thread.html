@@ -1,4 +1,4 @@
-{% extends 'html/layout.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
     掲示板
@@ -6,9 +6,13 @@
 
 {% block content %}
 <div class="flex flex-col">
-    <a href="/{{ thread_id }}">
-        <h1 class="text-3xl">{{ thread_title }}</h1>
-    </a>
+    <h1 class="text-3xl font-bold mb-4">{{ thread['name'] }}</h1>
+
+    <ul>
+        {% for comment in comments %}
+            <li class="bg-white p-3 mb-2 shadow">{{ comment['body'] }}</li>
+        {% endfor %}
+    </ul>
 </div>
 
 <svg width="800px" height="800px" viewBox="0 -2 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6">
