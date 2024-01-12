@@ -19,8 +19,29 @@ def close_connection(exception):
 @app.route('/')
 def main():
     db = get_db()
+    # テーブルが存在しない場合は作成
+    db.execute('''
+            CREATE TABLE IF NOT EXISTS threads (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL
+            )
+            ''')
+    db.execute('''
+            CREATE TABLE IF NOT EXISTS comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                thread_id INTEGER,
+                parent_id INTEGER,
+                body TEXT NOT NULL,
+                FOREIGN KEY (thread_id) REFERENCES threads (id)
+            )
+            ''')
+    db.commit()
+
     threads = db.execute('SELECT * FROM threads').fetchall()
     return render_template('main.html', threads=threads)
+
+# ... 以下省略 ...
+
 
 @app.route('/thread/<int:thread_id>')
 def view_thread(thread_id):
@@ -30,6 +51,7 @@ def view_thread(thread_id):
     # スレッドのコメント一覧を取得
     comments = db.execute('SELECT * FROM comments WHERE thread_id = ?', (thread_id,)).fetchall()
     return render_template('thread.html', thread=thread, comments=comments)
+
 
 @app.route('/create_thread', methods=['GET', 'POST'])
 def create_thread():
