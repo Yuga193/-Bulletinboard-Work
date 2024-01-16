@@ -16,6 +16,11 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def get_parent_comment(parent_id):
+    db = get_db()
+    parent_comment = db.execute('SELECT body FROM comments WHERE id = ?', (parent_id,)).fetchone()
+    return parent_comment['body'] if parent_comment else None
+
 @app.route('/')
 def main():
     db = get_db()
@@ -40,9 +45,6 @@ def main():
     threads = db.execute('SELECT * FROM threads').fetchall()
     return render_template('main.html', threads=threads)
 
-# ... 以下省略 ...
-
-
 @app.route('/thread/<int:thread_id>')
 def view_thread(thread_id):
     db = get_db()
@@ -50,8 +52,7 @@ def view_thread(thread_id):
     thread = db.execute('SELECT * FROM threads WHERE id = ?', (thread_id,)).fetchone()
     # スレッドのコメント一覧を取得
     comments = db.execute('SELECT * FROM comments WHERE thread_id = ?', (thread_id,)).fetchall()
-    return render_template('thread.html', thread=thread, comments=comments)
-
+    return render_template('thread.html', thread=thread, comments=comments, get_parent_comment=get_parent_comment)
 
 @app.route('/create_thread', methods=['GET', 'POST'])
 def create_thread():
@@ -62,6 +63,16 @@ def create_thread():
         db.commit()
         return redirect(url_for('main'))
     return render_template('create_thread.html')
+
+@app.route('/create_comment', methods=['POST'])
+def create_comment():
+    db = get_db()
+    thread_id = request.form.get('thread_id')
+    parent_id = request.form.get('parent_id', None)  # 親コメントがない場合に備えてデフォルト値を設定
+    body = request.form['body']  # 'body' パラメータを取得
+    db.execute("INSERT INTO comments (thread_id, parent_id, body) VALUES (?, ?, ?)", (thread_id, parent_id, body))
+    db.commit()
+    return redirect(url_for('view_thread', thread_id=thread_id))
 
 if __name__ == '__main__':
     with app.app_context():
