@@ -8,26 +8,38 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col">
-    <a href="/create_thread" class="flex justify-end m-2">
-        <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
-    </a>
-    <form method="post" action="example.cgi">
-        <p>
-            <select name="sort" class="border m-2">
-                <option value="サンプル3" selected>新着順</option>
-                <option value="サンプル4">コメント数順</option>
+    <script>
+        function updateSortOption() {
+            var sortOption = document.getElementById("sort_option").value;
+            window.location.href = "{{ url_for('main') }}?sort_option=" + sortOption;
+        }
+    </script>
+    <div class="flex flex-col">
+        <a href="/create_thread" class="flex justify-end m-2">
+            <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
+        </a>
+    </div>
+    <div>
+        <form>
+            <select id="sort_option" onchange="updateSortOption()" class="border m-2">
+                <option value="newest_first" {% if sort_option == 'newest_first' %}selected{% endif %}>新着順</option>
+                <option value="most_commented" {% if sort_option == 'most_commented' %}selected{% endif %}>コメント数順</option>
             </select>
-        </p>
-    </form>
-</div>
-<div>
-    <ul>
-        {% for thread in threads %}
-            <li class="mb-2"><a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="text-blue-500">{{ thread['name'] }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
+        </form>
+    </div>
+    <div>
+        <ul>
+            {% if sort_option == 'newest_first' %}
+                {% for thread in threads_newest_first %}
+                    <li><a href="{{ url_for('view_thread', thread_id=thread['id']) }}">{{ thread['name'] }}</a></li>
+                {% endfor %}
+            {% elif sort_option == 'most_commented' %}
+                {% for thread in threads_most_commented %}
+                    <li><a href="{{ url_for('view_thread', thread_id=thread['id']) }}">{{ thread['name'] }} (コメント数: {{ thread['comment_count'] }})</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block footer %}

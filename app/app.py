@@ -42,8 +42,21 @@ def main():
             ''')
     db.commit()
 
-    threads = db.execute('SELECT * FROM threads').fetchall()
-    return render_template('main.html', threads=threads)
+    sort_option = request.args.get('sort_option', 'newest_first')
+
+    # 新着順でソート
+    threads_newest_first = db.execute('SELECT * FROM threads ORDER BY id DESC').fetchall()
+
+    # コメント数順でソート
+    threads_most_commented = db.execute('''
+        SELECT threads.*, COUNT(comments.id) AS comment_count
+        FROM threads
+        LEFT JOIN comments ON threads.id = comments.thread_id
+        GROUP BY threads.id
+        ORDER BY comment_count DESC
+    ''').fetchall()
+
+    return render_template('main.html', threads_newest_first=threads_newest_first, threads_most_commented=threads_most_commented, sort_option=sort_option)
 
 @app.route('/thread/<int:thread_id>')
 def view_thread(thread_id):
