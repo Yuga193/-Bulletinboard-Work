@@ -28,7 +28,7 @@
         <ul>
             {% for index, comment in comments|enumerate(start=1) %}
                 <li class="mb-2">
-                    <strong>{{ index }}:</strong> {{ comment['body'] }}
+                    {{ index }}: {{ comment['body'] }}
                 </li>
             {% endfor %}
         </ul>
