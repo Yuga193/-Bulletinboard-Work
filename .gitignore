@@ -1,2 +1,3 @@
-app/__pycache__
-app/static/dist/output.css
+app/__pycache__/app.cpython-311.pyc
+forum.db
+output.css

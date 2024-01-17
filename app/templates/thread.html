@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ thread['name'] }}
+{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            margin-bottom: 60px; /* コメント入力欄の高さ分余白を確保 */
+        }
+        .fixed-comment-input {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0px -2px 5px 0px #ccc;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">{{ thread['name'] }}</h1>
+        <ul>
+            {% for comment in comments %}
+                <li class="mb-2">{{ comment['body'] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- コメント入力欄 -->
+    <div class="fixed-comment-input bg-white p-4 w-full">
+        <form action="{{ url_for('create_comment', thread_id=thread['id']) }}" method="post">
+            <input type="hidden" name="thread_id" value="{{ thread['id'] }}">
+            <input type="text" id="comment_body" name="body" required class="border rounded p-2 w-full">
+            <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">送信</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
