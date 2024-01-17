@@ -10,16 +10,22 @@ def get_db():
         db.row_factory = sqlite3.Row
     return db
 
+def get_parent_comment(parent_id):
+    db = get_db()
+    parent_comment = db.execute('SELECT body FROM comments WHERE id = ?', (parent_id,)).fetchone()
+    return parent_comment['body'] if parent_comment else None
+
+def jinja2_enumerate(iterable, start=0):
+    return enumerate(iterable, start)
+
+app.jinja_env.filters['enumerate'] = jinja2_enumerate
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
-def get_parent_comment(parent_id):
-    db = get_db()
-    parent_comment = db.execute('SELECT body FROM comments WHERE id = ?', (parent_id,)).fetchone()
-    return parent_comment['body'] if parent_comment else None
 
 @app.route('/')
 def main():
