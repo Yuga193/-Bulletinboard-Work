@@ -1,5 +1,5 @@
 app/__pycache__/
-static/dist/
 node_modules/
+output.css
 forum.db
-app.cpython-311.pyc
+.DS_store
