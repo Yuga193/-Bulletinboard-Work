@@ -93,6 +93,16 @@ def create_comment():
     db.commit()
     return redirect(url_for('view_thread', thread_id=thread_id))
 
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == 'POST':
+        search_term = request.form['search_term']
+        db = get_db()
+        # スレッド名での検索
+        result = db.execute('SELECT * FROM threads WHERE name LIKE ?', ('%' + search_term + '%',)).fetchall()
+        return render_template('search_results.html', result=result, search_term=search_term)
+    return redirect(url_for('main'))  # GET リクエストが来た場合はメインページにリダイレクト
+
 if __name__ == '__main__':
     with app.app_context():
         # スキーマの作成
