@@ -33,13 +33,15 @@
             {% if sort_option == 'newest_first' %}
                 {% for thread in threads_newest_first %}
                 <li class="border border-gray-300 rounded-md p-4 mb-2">
-                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="hover:text-blue-500 hover:underline">{{ thread['name'] }} ({{ thread['created_at'] }})</a>
+                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="hover:text-blue-500 hover:underline">{{ thread['name'] }}</a>
+                    <p class="flex justify-end">{{ thread['created_at'] }}</p>
                 </li>
                 {% endfor %}
             {% elif sort_option == 'most_commented' %}
                 {% for thread in threads_most_commented %}
                 <li class="border border-gray-300 rounded-md p-4 mb-2">
-                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="underline hover:text-blue-500 hover:underline">{{ thread['name'] }} ({{ thread['comment_count'] }})</a>
+                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="underline hover:text-blue-500 hover:underline">{{ thread['name'] }}</a>
+                    <p class="flex justify-end">コメント数: {{ thread['comment_count'] }}</p>
                 </li>
                 {% endfor %}
             {% endif %}
