@@ -1,5 +1,4 @@
 app/__pycache__/
-node_modules/
 output.css
 forum.db
 .DS_Store
