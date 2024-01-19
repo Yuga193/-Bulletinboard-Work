@@ -11,8 +11,7 @@
 <div class="bg-teal-50 min-h-screen">
     <div class="flex flex-col items-center justify-center text-center">
         <p class="text-3xl mt-24">
-            スレッドタイトルを決めてください<br>
-            (最大20文字)
+            スレッドタイトルを決めてください
         </p>
         <form action="{{ url_for('create_thread') }}" method="post">
             <input type="text" class="border border-black mt-4" name="thread_name"/>
