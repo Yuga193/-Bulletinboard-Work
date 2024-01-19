@@ -85,7 +85,7 @@ def create_thread():
         if not thread_name.strip():
             flash('スレッド名は空白にできません', 'error')
         else:
-            db.execute("INSERT INTO threads (name, created_at) VALUES (?, ?)", (thread_name, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+            db.execute("INSERT INTO threads (name, created_at) VALUES (?, ?)", (thread_name, datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S')))
             db.commit()
             return redirect(url_for('main'))
     return render_template('create_thread.html')
@@ -99,7 +99,7 @@ def create_comment():
     if not body.strip():
         flash('コメントが空白です', 'error')
     else:
-        db.execute("INSERT INTO comments (thread_id, parent_id, body, created_at) VALUES (?, ?, ?, ?)", (thread_id, parent_id, body, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        db.execute("INSERT INTO comments (thread_id, parent_id, body, created_at) VALUES (?, ?, ?, ?)", (thread_id, parent_id, body, datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S')))
         db.commit()
     return redirect(url_for('view_thread', thread_id=thread_id))
 
