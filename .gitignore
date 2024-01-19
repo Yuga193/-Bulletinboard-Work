@@ -1,3 +1,5 @@
-app/__pycache__/app.cpython-311.pyc
+app/__pycache__/
+static/dist/
+node_modules/
 forum.db
-output.css
+app.cpython-311.pyc
