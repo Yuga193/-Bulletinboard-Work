@@ -8,9 +8,9 @@
 </head>
 <body class="frex min-h-screen">
 <header>
-    <div class="flex flex-row justify-between p-5 bg-violet-500">
+    <div class="flex flex-row justify-between p-5 bg-gradient-to-b from-cyan-200 to-teal-50">
         <a href="/">
-            <h1 class="text-3xl text-white">掲示板アプリ</h1>
+            <h1 class="text-3xl font-bold">掲示板アプリ</h1>
         </a>
         <form action="{{ url_for('search') }}" method="post" class="flex flex-row">
             <input type="text" name="search_term" class="flex rounded-s-md p-2" placeholder="検索">
