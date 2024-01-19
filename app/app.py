@@ -82,7 +82,7 @@ def create_thread():
     db = get_db()
     if request.method == 'POST':
         thread_name = request.form['thread_name']
-        if not thread_name.strip():  # 空白でないことを確認
+        if not thread_name.strip():
             flash('スレッド名は空白にできません', 'error')
         else:
             db.execute("INSERT INTO threads (name, created_at) VALUES (?, ?)", (thread_name, datetime.datetime.now()))
@@ -96,13 +96,11 @@ def create_comment():
     thread_id = request.form.get('thread_id')
     parent_id = request.form.get('parent_id', None)
     body = request.form['body']
-
-    if not body.strip():  # 空白でないことを確認
+    if not body.strip():
         flash('コメントが空白です', 'error')
     else:
         db.execute("INSERT INTO comments (thread_id, parent_id, body, created_at) VALUES (?, ?, ?, ?)", (thread_id, parent_id, body, datetime.datetime.now()))
         db.commit()
-
     return redirect(url_for('view_thread', thread_id=thread_id))
 
 @app.route('/search', methods=['POST'])

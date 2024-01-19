@@ -23,22 +23,31 @@
 {% endblock %}
 
 {% block content %}
-<div class=" mx-auto p-4 min-h-screen bg-teal-50">
-    <h1 class="text-3xl font-bold mb-4">{{ thread['name'] }}</h1>
-    <ul>
-        {% for index, comment in comments|enumerate(start=1) %}
-            <li class="mb-2">
-                <!-- max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lgと書けばコメントの幅を”そのスレッド内の一番長いコメントに合わせられる-->
-                <!-- 各コメントの幅を内容に応じて動的に調整するにはJSが必要になります。-->
-                <div class="border border-gray-300 bg-violet-100 rounded-md shadow-sm">
-                    <span class="font-bold">{{ index }}</span>: {{ comment['body'] }} ({{ comment['created_at'] }})
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-    <div class="mb-12"></div> <!-- 余白の追加。これがないとテキストエリアとコメントが重なる-->
-</div>
-
+    <div class=" mx-auto p-4 min-h-screen bg-teal-50">
+        <h1 class="text-3xl font-bold mb-4">{{ thread['name'] }}</h1>
+        <ul>
+            {% for index, comment in comments|enumerate(start=1) %}
+                <li class="mb-2">
+                    <!-- max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lgと書けばコメントの幅を”そのスレッド内の一番長いコメントに合わせられる-->
+                    <!-- 各コメントの幅を内容に応じて動的に調整するにはJSが必要になります。-->
+                    <div class="border border-gray-300 bg-violet-100 rounded-md shadow-sm">
+                        <span class="font-bold">{{ index }}</span>: {{ comment['body'] }}
+                        <p class="flex justify-end">{{ comment['created_at'] }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="mb-12"></div> <!-- 余白の追加。これがないとテキストエリアとコメントが重なる-->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
 
     <!-- コメント入力欄 -->
     <div>
@@ -46,7 +55,7 @@
         <form action="{{ url_for('create_comment', thread_id=thread['id']) }}" method="post">
             <input type="hidden" name="thread_id" value="{{ thread['id'] }}">
             <textarea class="border border-black w-full bottom-0 fixed" id="comment_body" name="body" rows="4" placeholder="コメントを書き込む"></textarea>
-                <div class="fixed bottom-0 right-0 mr-2">
+            <div class="fixed bottom-0 right-0 mr-2">
                     <button class="button-svg" type="submit">
                         <svg fill="#000000" width="24" height="24" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" class="w-6 h-6">
                             <path d="M508.645,18.449c-2.929-2.704-7.133-3.51-10.826-2.085L6.715,204.446c-3.541,1.356-6.066,4.515-6.607,8.264
