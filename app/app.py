@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, flash
 import sqlite3
+import datetime
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -34,7 +36,8 @@ def main():
     db.execute('''
             CREATE TABLE IF NOT EXISTS threads (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
             ''')
     db.execute('''
@@ -43,6 +46,7 @@ def main():
                 thread_id INTEGER,
                 parent_id INTEGER,
                 body TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (thread_id) REFERENCES threads (id)
             )
             ''')
@@ -78,19 +82,27 @@ def create_thread():
     db = get_db()
     if request.method == 'POST':
         thread_name = request.form['thread_name']
-        db.execute("INSERT INTO threads (name) VALUES (?)", (thread_name,))
-        db.commit()
-        return redirect(url_for('main'))
+        if not thread_name.strip():  # 空白でないことを確認
+            flash('スレッド名は空白にできません', 'error')
+        else:
+            db.execute("INSERT INTO threads (name, created_at) VALUES (?, ?)", (thread_name, datetime.datetime.now()))
+            db.commit()
+            return redirect(url_for('main'))
     return render_template('create_thread.html')
 
 @app.route('/create_comment', methods=['POST'])
 def create_comment():
     db = get_db()
     thread_id = request.form.get('thread_id')
-    parent_id = request.form.get('parent_id', None)  # 親コメントがない場合に備えてデフォルト値を設定
-    body = request.form['body']  # 'body' パラメータを取得
-    db.execute("INSERT INTO comments (thread_id, parent_id, body) VALUES (?, ?, ?)", (thread_id, parent_id, body))
-    db.commit()
+    parent_id = request.form.get('parent_id', None)
+    body = request.form['body']
+
+    if not body.strip():  # 空白でないことを確認
+        flash('コメントが空白です', 'error')
+    else:
+        db.execute("INSERT INTO comments (thread_id, parent_id, body, created_at) VALUES (?, ?, ?, ?)", (thread_id, parent_id, body, datetime.datetime.now()))
+        db.commit()
+
     return redirect(url_for('view_thread', thread_id=thread_id))
 
 @app.route('/search', methods=['POST'])
