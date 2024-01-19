@@ -17,7 +17,7 @@
     </script>
     <div class="flex p-2">
         <a href="/create_thread">
-            <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2">スレッドを建てる</button>
+            <button id="myButton" class="bg-gray-600 hover:bg-gray-400 text-white rounded px-4 py-2 mt-6">スレッドを建てる</button>
         </a>
     </div>
     <div class="flex m-2 p-2">
@@ -32,11 +32,17 @@
         <ul class="text-2xl font-bold mb-4">
             {% if sort_option == 'newest_first' %}
                 {% for thread in threads_newest_first %}
-                <li><a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="hover:text-blue-500 hover:underline">{{ thread['name'] }} ({{ thread['created_at'] }})</a></li>
+                <li class="border border-gray-300 rounded-md p-4 mb-2">
+                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="hover:text-blue-500 hover:underline">{{ thread['name'] }}</a>
+                    <p class="flex justify-end">{{ thread['created_at'] }}</p>
+                </li>
                 {% endfor %}
             {% elif sort_option == 'most_commented' %}
                 {% for thread in threads_most_commented %}
-                <li><a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="underline hover:text-blue-500 hover:underline">{{ thread['name'] }} ({{ thread['comment_count'] }})</a></li>
+                <li class="border border-gray-300 bg-gray-200 rounded-md p-4 mb-2">
+                    <a href="{{ url_for('view_thread', thread_id=thread['id']) }}" class="underline hover:text-blue-500 hover:underline">{{ thread['name'] }}</a>
+                    <p class="flex justify-end">コメント数: {{ thread['comment_count'] }}</p>
+                </li>
                 {% endfor %}
             {% endif %}
         </ul>
